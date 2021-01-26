@@ -9,9 +9,12 @@ export default class game extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            headertext: props.headerText,
             player: '',
-            players: []
+            players: [],
+            deckID: "",
+            remainingCards: "",
+            numberOfKings: 4,
+            rules: new Map()
         }
     }
 
@@ -43,12 +46,29 @@ export default class game extends React.Component{
         })
     }
 
+    handleNewSubmit = async event => {
+        event.preventDefault();
+        const newDeck = await fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1').then(response => response.json());
+        this.setState({
+            deckID: newDeck.deck_id,
+            remainingCards: newDeck.remaining
+        })
+        
+    }
+
+
 
 
     render(){
         return(
             <div style={{backgroundColor:'#fbf5f3', width:'80%', height:'700px', marginLeft:'10%', marginTop:'60px'}}>
                 <div style={{float:"right"}}>
+                    <form onSubmit={this.handleNewSubmit}>
+                        <button type="submit" className="btn btn-success" data-dismiss="modal">
+                        Start New Game <FaPlusCircle />
+                        </button>  
+                    </form>
+                    <br />
                     <h3>Add New Player</h3>
                     <form onSubmit={this.handleSubmit}>
                         <input type = "text" name="player" value={this.state.player} onChange={this.handleInputChange} style={{width:"100%",fontSize:"20px"}} required/>
