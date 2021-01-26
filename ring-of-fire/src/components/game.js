@@ -52,8 +52,16 @@ export default class game extends React.Component{
         this.setState({
             deckID: newDeck.deck_id,
             remainingCards: newDeck.remaining
-        })
-        
+        })  
+    }
+
+    handlePickCard = async event => {
+        event.preventDefault();
+        const pickedCard = await fetch('https://deckofcardsapi.com/api/deck/'+this.state.deckID+'/draw/?count=1').then(res => res.json());
+        if(pickedCard.cards[0].code.startsWith('K')){this.setState({numberOfKings: this.state.numberOfKings - 1})};
+        this.setState({
+            remainingCards: this.state.remainingCards - 1
+        })  
     }
 
 
@@ -66,6 +74,12 @@ export default class game extends React.Component{
                     <form onSubmit={this.handleNewSubmit}>
                         <button type="submit" className="btn btn-success" data-dismiss="modal">
                         Start New Game <FaPlusCircle />
+                        </button>  
+                    </form>
+                    <br />
+                    <form onSubmit={this.handlePickCard}>
+                        <button type="submit" className="btn btn-success" data-dismiss="modal">
+                        Pick Card <FaPlusCircle />
                         </button>  
                     </form>
                     <br />
