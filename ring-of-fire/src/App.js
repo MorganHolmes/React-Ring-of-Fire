@@ -3,7 +3,8 @@ import {FaBeer, FaFire} from 'react-icons/fa';
 //Boostrap CSS file - MWH
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/header';
-import Game from './components/game'
+import Game from './components/game';
+
 
 
 function App() {

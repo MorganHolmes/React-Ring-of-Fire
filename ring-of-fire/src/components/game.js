@@ -1,8 +1,8 @@
-import React from "react"
+import React from "react";
 //import Select from 'react-dropdown-select'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import {FaPlusCircle, FaMinusCircle} from 'react-icons/fa'
-import {Button} from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {FaPlusCircle, FaMinusCircle} from 'react-icons/fa';
+
 
 
 export default class game extends React.Component{
@@ -14,7 +14,8 @@ export default class game extends React.Component{
             deckID: "",
             remainingCards: "",
             numberOfKings: 4,
-            rules: new Map()
+            rules: new Map(),
+            infoMessage: ''
         }
     }
 
@@ -51,7 +52,8 @@ export default class game extends React.Component{
         const newDeck = await fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1').then(response => response.json());
         this.setState({
             deckID: newDeck.deck_id,
-            remainingCards: newDeck.remaining
+            remainingCards: newDeck.remaining,
+            infoMessage: 'New Game Started'
         })  
     }
 
@@ -69,7 +71,10 @@ export default class game extends React.Component{
 
     render(){
         return(
-            <div style={{backgroundColor:'#fbf5f3', width:'80%', height:'700px', marginLeft:'10%', marginTop:'60px'}}>
+            <div style={{backgroundColor:'#fbf5f3', width:'80%', height:'700px', marginLeft:'10%',marginTop:'60px'}}>
+                <div style={{backgroundColor:'#ff5964', width:'100%', height:'60px', marginBottom:'1%'}}>
+                    <p style={{fontSize: '40px',width:'100%',marginBlockStart:'0px',float:'left',marginBlockEnd: '0px'}}>{this.state.infoMessage}</p>
+                </div>
                 <div style={{float:"right"}}>
                     <form onSubmit={this.handleNewSubmit}>
                         <button type="submit" className="btn btn-success" data-dismiss="modal">
