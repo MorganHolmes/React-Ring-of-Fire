@@ -15,7 +15,8 @@ export default class game extends React.Component{
             remainingCards: "",
             numberOfKings: 4,
             rules: new Map(),
-            infoMessage: ''
+            infoMessage: '',
+            inGame: false
         }
     }
 
@@ -55,19 +56,26 @@ export default class game extends React.Component{
         this.setState({
             deckID: newDeck.deck_id,
             remainingCards: newDeck.remaining,
-            infoMessage: 'New Game Started'
+            infoMessage: 'New Game Started',
+            inGame:true
         })  
     }
 
     handlePickCard = async event => {
         event.preventDefault();
-        const pickedCard = await fetch('https://deckofcardsapi.com/api/deck/'+this.state.deckID+'/draw/?count=1').then(res => res.json());
-        if(pickedCard.cards[0].code.startsWith('K')){this.setState({numberOfKings: this.state.numberOfKings - 1})};
-        if(this.state.numberOfKings == 0){this.setState({})}
-        this.setState({
-            remainingCards: this.state.remainingCards - 1,
-            infoMessage: 'Morgan Picked - ' + pickedCard.cards[0].value + " of " + pickedCard.cards[0].suit + "(" + this.state.remainingCards + ")"
-        })  
+        if(this.state.inGame == true){
+            const pickedCard = await fetch('https://deckofcardsapi.com/api/deck/'+this.state.deckID+'/draw/?count=1').then(res => res.json());
+            if(pickedCard.cards[0].code.startsWith('K')){this.setState({numberOfKings: this.state.numberOfKings - 1})};
+            if(this.state.numberOfKings == 0){this.setState({infoMessage: 'Game Over! Morgan Pick The Last King',inGame:false})};
+            this.setState({
+                remainingCards: this.state.remainingCards - 1,
+                infoMessage: 'Morgan Picked - ' + pickedCard.cards[0].value + " of " + pickedCard.cards[0].suit + "(" + this.state.remainingCards + ")"
+            })  
+        }else{
+            this.setState({
+                infoMessage: 'Start a New Game to Pick a Card!'
+            })
+        }
     }
 
 
