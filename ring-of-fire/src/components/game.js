@@ -36,6 +36,7 @@ export default class game extends React.Component{
         //Adds a player to the array - MWH
         this.state.players.push(this.state.player);
         this.setState({
+            infoMessage: this.state.player + ' added to the game',
             player: ''
         })
     }
@@ -43,7 +44,8 @@ export default class game extends React.Component{
     handleClearSubmit = event => {
         event.preventDefault();
         this.setState({
-            players: []
+            players: [],
+            infoMessage: 'All Players Removed'
         })
     }
 
@@ -61,8 +63,10 @@ export default class game extends React.Component{
         event.preventDefault();
         const pickedCard = await fetch('https://deckofcardsapi.com/api/deck/'+this.state.deckID+'/draw/?count=1').then(res => res.json());
         if(pickedCard.cards[0].code.startsWith('K')){this.setState({numberOfKings: this.state.numberOfKings - 1})};
+        if(this.state.numberOfKings == 0){this.setState({})}
         this.setState({
-            remainingCards: this.state.remainingCards - 1
+            remainingCards: this.state.remainingCards - 1,
+            infoMessage: 'Morgan Picked - ' + pickedCard.cards[0].value + " of " + pickedCard.cards[0].suit + "(" + this.state.remainingCards + ")"
         })  
     }
 
@@ -73,7 +77,7 @@ export default class game extends React.Component{
         return(
             <div style={{backgroundColor:'#fbf5f3', width:'80%', height:'700px', marginLeft:'10%',marginTop:'60px'}}>
                 <div style={{backgroundColor:'#ff5964', width:'100%', height:'60px', marginBottom:'1%'}}>
-                    <p style={{fontSize: '40px',width:'100%',marginBlockStart:'0px',float:'left',marginBlockEnd: '0px'}}>{this.state.infoMessage}</p>
+                    <p style={{fontSize: '36px',width:'100%',marginBlockStart:'0px',float:'left',marginBlockEnd: '0px'}}>{this.state.infoMessage}</p>
                 </div>
                 <div style={{float:"right"}}>
                     <form onSubmit={this.handleNewSubmit}>
