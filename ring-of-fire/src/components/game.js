@@ -19,6 +19,7 @@ export default class game extends React.Component{
             inGame: false,
             cardImage: 'https://i.pinimg.com/originals/10/80/a4/1080a4bd1a33cec92019fab5efb3995d.png'
         }
+        this.setUpMap();
     }
 
     handleInputChange = event => {
@@ -28,6 +29,22 @@ export default class game extends React.Component{
         this.setState({
             [name]: value,
         })
+    }
+
+    setUpMap = () => {
+        this.state.rules.set('ACE', "Waterfall -  Everyone Should Keep Drinking Until The Person Who Picked The Card Stop");
+        this.state.rules.set('2', 'Choose - You Can Choose Someone To Drink');
+        this.state.rules.set('3', 'Me - You Must Drink');
+        this.state.rules.set('4', 'Whores - All Girls Must Drink');
+        this.state.rules.set('5', 'Thumb Master');
+        this.state.rules.set('6',  'Dicks - All Guys Drink');
+        this.state.rules.set('7', 'Heaven - Point Your Finger In The Sky, Whoever Is Last Must Drink');
+        this.state.rules.set('8', 'Mate - Choose Someone To Drink With You');
+        this.state.rules.set('9', 'Rhyme - Pick A Word To Rhyme');
+        this.state.rules.set('10', 'Categories - Pick A Category');
+        this.state.rules.set('JACK', 'Make A Rule');
+        this.state.rules.set('QUEEN', 'Question Master');
+        this.state.rules.set('KING','Take 2 Sips of Your Drink');
     }
     
     handleClick() {
@@ -59,7 +76,8 @@ export default class game extends React.Component{
             remainingCards: newDeck.remaining,
             numberOfKings: 4,
             infoMessage: 'New Game Started',
-            inGame:true
+            inGame:true,
+            cardImage: 'https://i.pinimg.com/originals/10/80/a4/1080a4bd1a33cec92019fab5efb3995d.png'
         })  
     }
 
@@ -73,8 +91,8 @@ export default class game extends React.Component{
             else if(this.state.remainingCards == 0){this.setState({infoMessage: 'Game Over! All Cards Picked'})}
             else{this.setState({
                 remainingCards: this.state.remainingCards - 1,
-                cardImage: pickedCard.cards[0].image,
-                infoMessage: 'Morgan Picked - ' + pickedCard.cards[0].value + " of " + pickedCard.cards[0].suit + "(" + this.state.remainingCards + ")"
+                cardImage: pickedCard.cards[0].image, 
+                infoMessage: 'Morgan Picked (' + this.state.remainingCards + ") " + this.state.rules.get(pickedCard.cards[0].value)
             })} ; 
         }else{
             this.setState({
@@ -86,11 +104,12 @@ export default class game extends React.Component{
 
 
 
+
     render(){
         return(
             <div style={{backgroundColor:'#fbf5f3', width:'80%', height:'700px', marginLeft:'10%',marginTop:'60px'}}>
                 <div style={{backgroundColor:'#ff5964', width:'100%', height:'60px', marginBottom:'1%'}}>
-                    <p style={{fontSize: '36px',width:'100%',marginBlockStart:'0px',float:'left',marginBlockEnd: '0px'}}>{this.state.infoMessage}</p>
+                    <p style={{fontSize: '32px',width:'100%',marginBlockStart:'0px',float:'left',marginBlockEnd: '0px'}}>{this.state.infoMessage}</p>
                 </div>
                 <centre>
                     <img src={this.state.cardImage} style={{width:'25%',height:'65%'}} />
