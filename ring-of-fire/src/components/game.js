@@ -10,6 +10,7 @@ export default class game extends React.Component{
         super(props);
         this.state = {
             player: '',
+            playerCount: 0,
             players: [],
             deckID: "",
             remainingCards: "",
@@ -52,12 +53,19 @@ export default class game extends React.Component{
 
     handleSubmit = event => {
         event.preventDefault();
-        //Adds a player to the array - MWH
-        this.state.players.push(this.state.player);
-        this.setState({
-            infoMessage: this.state.player + ' added to the game',
-            player: ''
-        })
+        if(this.state.inGame == true){
+            //Adds a player to the array - MWH
+            this.state.players.push(this.state.player);
+            this.setState({
+                infoMessage: this.state.player + ' added to the game',
+                player: '',
+                playerCount: this.state.playerCount + 1
+            })
+        }else{
+            this.setState({
+                infoMessage: 'Start a New Game to Add a New Player'
+            })
+        }
     }
 
     handleClearSubmit = event => {
@@ -87,12 +95,15 @@ export default class game extends React.Component{
             const pickedCard = await fetch('https://deckofcardsapi.com/api/deck/'+this.state.deckID+'/draw/?count=1').then(res => res.json());
             if(pickedCard.cards[0].code.startsWith('K')){this.setState({numberOfKings: this.state.numberOfKings - 1})};
 
-            if(this.state.numberOfKings == 0){this.setState({infoMessage: 'Game Over! Morgan Pick The Last King',inGame:false,cardImage:pickedCard.cards[0].image,remainingCards: this.state.remainingCards - 1})}
+            if(this.state.playerCount + 1 > this.state.players.length-1){this.state.playerCount = 0}
+            else{this.state.playerCount = this.state.playerCount + 1}
+
+            if(this.state.numberOfKings == 0){this.setState({infoMessage: 'Game Over! '+ this.state.players[this.state.playerCount] +'Pick The Last King',inGame:false,cardImage:pickedCard.cards[0].image,remainingCards: this.state.remainingCards - 1})}
             else if(this.state.remainingCards == 0){this.setState({infoMessage: 'Game Over! All Cards Picked'})}
             else{this.setState({
                 remainingCards: this.state.remainingCards - 1,
                 cardImage: pickedCard.cards[0].image, 
-                infoMessage: 'Morgan Picked (' + this.state.remainingCards + ") " + this.state.rules.get(pickedCard.cards[0].value)
+                infoMessage: this.state.players[this.state.playerCount] + ' Picked (' + this.state.remainingCards + ") " + this.state.rules.get(pickedCard.cards[0].value)
             })} ; 
         }else{
             this.setState({
