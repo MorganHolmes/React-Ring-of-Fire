@@ -2,6 +2,7 @@ import React from "react";
 //import Select from 'react-dropdown-select'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {FaPlusCircle, FaMinusCircle} from 'react-icons/fa';
+import {BsPlayFill} from 'react-icons/bs';
 
 
 
@@ -46,9 +47,6 @@ export default class game extends React.Component{
         this.state.rules.set('JACK', 'Make A Rule');
         this.state.rules.set('QUEEN', 'Question Master');
         this.state.rules.set('KING','Take 2 Sips of Your Drink');
-    }
-    
-    handleClick() {
     }
 
     handleSubmit = event => {
@@ -98,7 +96,7 @@ export default class game extends React.Component{
             if(this.state.playerCount + 1 > this.state.players.length-1){this.state.playerCount = 0}
             else{this.state.playerCount = this.state.playerCount + 1}
 
-            if(this.state.numberOfKings == 0){this.setState({infoMessage: 'Game Over! '+ this.state.players[this.state.playerCount] +'Pick The Last King',inGame:false,cardImage:pickedCard.cards[0].image,remainingCards: this.state.remainingCards - 1})}
+            if(this.state.numberOfKings == 0){this.setState({infoMessage: 'Game Over! '+ this.state.players[this.state.playerCount] +' Pick The Last King',inGame:false,cardImage:pickedCard.cards[0].image,remainingCards: this.state.remainingCards - 1})}
             else if(this.state.remainingCards == 0){this.setState({infoMessage: 'Game Over! All Cards Picked'})}
             else{this.setState({
                 remainingCards: this.state.remainingCards - 1,
@@ -112,10 +110,6 @@ export default class game extends React.Component{
         }
     }
 
-
-
-
-
     render(){
         return(
             <div style={{backgroundColor:'#fbf5f3', width:'80%', height:'700px', marginLeft:'10%',marginTop:'60px'}}>
@@ -128,7 +122,7 @@ export default class game extends React.Component{
                 <div style={{float:"right"}}>
                     <form onSubmit={this.handleNewSubmit}>
                         <button type="submit" className="btn btn-success" data-dismiss="modal">
-                        Start New Game <FaPlusCircle />
+                        Start New Game <BsPlayFill />
                         </button>  
                     </form>
                     <br />
