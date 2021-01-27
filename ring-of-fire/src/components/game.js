@@ -16,7 +16,8 @@ export default class game extends React.Component{
             numberOfKings: 4,
             rules: new Map(),
             infoMessage: '',
-            inGame: false
+            inGame: false,
+            cardImage: ''
         }
     }
 
@@ -56,6 +57,7 @@ export default class game extends React.Component{
         this.setState({
             deckID: newDeck.deck_id,
             remainingCards: newDeck.remaining,
+            numberOfKings: 4,
             infoMessage: 'New Game Started',
             inGame:true
         })  
@@ -66,11 +68,14 @@ export default class game extends React.Component{
         if(this.state.inGame == true){
             const pickedCard = await fetch('https://deckofcardsapi.com/api/deck/'+this.state.deckID+'/draw/?count=1').then(res => res.json());
             if(pickedCard.cards[0].code.startsWith('K')){this.setState({numberOfKings: this.state.numberOfKings - 1})};
-            if(this.state.numberOfKings == 0){this.setState({infoMessage: 'Game Over! Morgan Pick The Last King',inGame:false})};
-            this.setState({
+
+            if(this.state.numberOfKings == 0){this.setState({infoMessage: 'Game Over! Morgan Pick The Last King',inGame:false,cardImage:pickedCard.cards[0].image,remainingCards: this.state.remainingCards - 1})}
+            else if(this.state.remainingCards == 0){this.setState({infoMessage: 'Game Over! All Cards Picked'})}
+            else{this.setState({
                 remainingCards: this.state.remainingCards - 1,
+                cardImage: pickedCard.cards[0].image,
                 infoMessage: 'Morgan Picked - ' + pickedCard.cards[0].value + " of " + pickedCard.cards[0].suit + "(" + this.state.remainingCards + ")"
-            })  
+            })} ; 
         }else{
             this.setState({
                 infoMessage: 'Start a New Game to Pick a Card!'
@@ -87,6 +92,7 @@ export default class game extends React.Component{
                 <div style={{backgroundColor:'#ff5964', width:'100%', height:'60px', marginBottom:'1%'}}>
                     <p style={{fontSize: '36px',width:'100%',marginBlockStart:'0px',float:'left',marginBlockEnd: '0px'}}>{this.state.infoMessage}</p>
                 </div>
+                <img src={this.state.cardImage}/>
                 <div style={{float:"right"}}>
                     <form onSubmit={this.handleNewSubmit}>
                         <button type="submit" className="btn btn-success" data-dismiss="modal">
