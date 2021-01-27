@@ -17,7 +17,7 @@ export default class game extends React.Component{
             rules: new Map(),
             infoMessage: '',
             inGame: false,
-            cardImage: ''
+            cardImage: 'https://i.pinimg.com/originals/10/80/a4/1080a4bd1a33cec92019fab5efb3995d.png'
         }
     }
 
@@ -92,7 +92,9 @@ export default class game extends React.Component{
                 <div style={{backgroundColor:'#ff5964', width:'100%', height:'60px', marginBottom:'1%'}}>
                     <p style={{fontSize: '36px',width:'100%',marginBlockStart:'0px',float:'left',marginBlockEnd: '0px'}}>{this.state.infoMessage}</p>
                 </div>
-                <img src={this.state.cardImage}/>
+                <centre>
+                    <img src={this.state.cardImage} style={{width:'25%',height:'65%'}} />
+                </centre>
                 <div style={{float:"right"}}>
                     <form onSubmit={this.handleNewSubmit}>
                         <button type="submit" className="btn btn-success" data-dismiss="modal">
