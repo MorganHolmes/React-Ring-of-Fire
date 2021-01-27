@@ -51,7 +51,7 @@ export default class game extends React.Component{
 
     handleSubmit = event => {
         event.preventDefault();
-        if(this.state.inGame == true){
+        if(this.state.inGame === true){
             //Adds a player to the array - MWH
             this.state.players.push(this.state.player);
             this.setState({
@@ -89,15 +89,15 @@ export default class game extends React.Component{
 
     handlePickCard = async event => {
         event.preventDefault();
-        if(this.state.inGame == true){
+        if(this.state.inGame === true){
             const pickedCard = await fetch('https://deckofcardsapi.com/api/deck/'+this.state.deckID+'/draw/?count=1').then(res => res.json());
             if(pickedCard.cards[0].code.startsWith('K')){this.setState({numberOfKings: this.state.numberOfKings - 1})};
 
             if(this.state.playerCount + 1 > this.state.players.length-1){this.state.playerCount = 0}
             else{this.state.playerCount = this.state.playerCount + 1}
 
-            if(this.state.numberOfKings == 0){this.setState({infoMessage: 'Game Over! '+ this.state.players[this.state.playerCount] +' Pick The Last King',inGame:false,cardImage:pickedCard.cards[0].image,remainingCards: this.state.remainingCards - 1})}
-            else if(this.state.remainingCards == 0){this.setState({infoMessage: 'Game Over! All Cards Picked'})}
+            if(this.state.numberOfKings === 0){this.setState({infoMessage: 'Game Over! '+ this.state.players[this.state.playerCount] +' Pick The Last King',inGame:false,cardImage:pickedCard.cards[0].image,remainingCards: this.state.remainingCards - 1})}
+            else if(this.state.remainingCards === 0){this.setState({infoMessage: 'Game Over! All Cards Picked'})}
             else{this.setState({
                 remainingCards: this.state.remainingCards - 1,
                 cardImage: pickedCard.cards[0].image, 
@@ -117,7 +117,7 @@ export default class game extends React.Component{
                     <p style={{fontSize: '32px',width:'100%',marginBlockStart:'0px',float:'left',marginBlockEnd: '0px'}}>{this.state.infoMessage}</p>
                 </div>
                 <centre>
-                    <img src={this.state.cardImage} style={{width:'25%',height:'65%'}} />
+                    <img src={this.state.cardImage} style={{width:'25%',height:'65%'}} alt="Playing Card" />
                 </centre>
                 <div style={{float:"right"}}>
                     <form onSubmit={this.handleNewSubmit}>
