@@ -34,7 +34,7 @@ export default class game extends React.Component{
     }
 
     setUpMap = () => {
-        this.state.rules.set('ACE', "Waterfall -  Everyone Should Keep Drinking Until The Person Who Picked The Card Stop");
+        this.state.rules.set('ACE', "Waterfall -  Everyone Should Keep Drinking Until The Person Who Picked The Card Stops");
         this.state.rules.set('2', 'Choose - You Can Choose Someone To Drink');
         this.state.rules.set('3', 'Me - You Must Drink');
         this.state.rules.set('4', 'Whores - All Girls Must Drink');
@@ -96,7 +96,7 @@ export default class game extends React.Component{
             if(this.state.playerCount + 1 > this.state.players.length-1){this.state.playerCount = 0}
             else{this.state.playerCount = this.state.playerCount + 1}
 
-            if(this.state.numberOfKings === 0){this.setState({infoMessage: 'Game Over! '+ this.state.players[this.state.playerCount] +' Pick The Last King',inGame:false,cardImage:pickedCard.cards[0].image,remainingCards: this.state.remainingCards - 1})}
+            if(this.state.numberOfKings === 0){this.setState({infoMessage: 'Game Over! '+ this.state.players[this.state.playerCount] +' Picked The Last King',inGame:false,cardImage:pickedCard.cards[0].image,remainingCards: this.state.remainingCards - 1})}
             else if(this.state.remainingCards === 0){this.setState({infoMessage: 'Game Over! All Cards Picked'})}
             else{this.setState({
                 remainingCards: this.state.remainingCards - 1,
